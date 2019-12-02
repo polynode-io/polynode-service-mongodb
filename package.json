@@ -1,0 +1,15 @@
+{
+  "name": "polynode-service-mongodb",
+  "version": "0.1.0",
+  "description": "MongoDB service for polynode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jorge Duarte <info@malagadev.com>",
+  "license": "MIT",
+  "repository": "git@github.com:polynode-io/polynode-service-mongodb.git",
+  "dependencies": {
+    "mongoose": "^5.7.13"
+  }
+}
