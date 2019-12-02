@@ -1,6 +1,6 @@
 {
   "name": "polynode-service-mongodb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MongoDB service for polynode",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,8 @@
   "repository": "git@github.com:polynode-io/polynode-service-mongodb.git",
   "dependencies": {
     "mongoose": "^5.7.13"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.112.0"
   }
 }
