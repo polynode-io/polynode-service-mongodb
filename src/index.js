@@ -19,7 +19,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * $Id:$
+ * $Id$
  *
  * @flow
  * @format
@@ -28,17 +28,14 @@
 
 const mongoose = require('mongoose');
 
-type DBUri = String;
+type DBUri = string;
 type DBOptions = {
-  keepAlive: Boolean,
-  useNewUrlParser: Boolean,
-  useUnifiedTopology: Boolean,
+  keepAlive: boolean,
+  useNewUrlParser: boolean,
+  useUnifiedTopology: boolean,
 };
 
-const runAllActions = onConnectActions =>
-  onConnectActions.forEach(action => {
-    action();
-  });
+const runAllActions = onConnectActions => onConnectActions.forEach(action => action());
 
 class Database {
   conn: any; // @todo: use proper type from Mongoose
@@ -76,14 +73,9 @@ class Database {
       });
   }
 
-  isMongoError(err) {
-    if (err.name.substring(0, 5) === 'Mongo') {
-      return true;
-    }
-    return false;
-  }
+  isMongoError = (err: Error) => err.name.substring(0, 5) === 'Mongo';
 
-  getModel(schemaName, schemaObj, appSchemaOptions) {
+  getModel(schemaName: string, schemaObj, appSchemaOptions) {
     const loadModelNow = () => {
       this.log.trace('Loading model for : ', schemaName);
       const model = this.conn.model(schemaName, schemaObj);
