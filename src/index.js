@@ -35,7 +35,8 @@ type DBOptions = {
   useUnifiedTopology: boolean,
 };
 
-const runAllActions = onConnectActions => onConnectActions.forEach(action => action());
+const runAllActions = (onConnectActions, depsContainer) =>
+  onConnectActions.forEach(action => action(depsContainer));
 
 class Database {
   conn: any; // @todo: use proper type from Mongoose
@@ -45,10 +46,15 @@ class Database {
   };
 
   onConnectActions: Array<() => void>;
-  constructor(deps: { log: Function, config: { uri: DBUri, options: null | DBOptions } }) {
+  constructor(deps: {
+    log: Function,
+    config: { uri: DBUri, options: null | DBOptions },
+    onConnect?: Function,
+  }) {
+    console.log('*********** in service mongodb');
     this.config = deps.config;
     this.log = deps.log;
-    this.onConnectActions = [];
+    this.onConnectActions = deps.onConnect ? [deps.onConnect] : [];
 
     this.log.debug('*** Connecting to DB... Config is: ', this.config);
 
@@ -57,7 +63,7 @@ class Database {
       .then(conn => {
         this.log.info('*** DB Connection established.');
         this.conn = conn;
-        runAllActions(this.onConnectActions);
+        runAllActions(this.onConnectActions, deps);
       })
       .catch(err => {
         if (this.isMongoError(err)) {
@@ -75,20 +81,7 @@ class Database {
 
   isMongoError = (err: Error) => err.name.substring(0, 5) === 'Mongo';
 
-  getModel(schemaName: string, schemaObj, appSchemaOptions) {
-    const loadModelNow = () => {
-      this.log.trace('Loading model for : ', schemaName);
-      const model = this.conn.model(schemaName, schemaObj);
-      model._appSchemaOptions = appSchemaOptions;
-      return model;
-    };
-
-    if (this.conn == null) {
-      this.log.error('- ERROR: DB is not ready!');
-    } else {
-      return loadModelNow();
-    }
-  }
+  getConnection = () => this.conn;
 
   async disconnect() {
     return this.conn.disconnect();
