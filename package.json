@@ -1,6 +1,6 @@
 {
   "name": "polynode-service-mongodb",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "MongoDB service for polynode",
   "main": "build/index.js",
   "scripts": {
@@ -12,7 +12,8 @@
   "license": "MIT",
   "repository": "git@github.com:polynode-io/polynode-service-mongodb.git",
   "dependencies": {
-    "mongoose": "^5.7.13"
+    "mongoose": "^5.7.13",
+    "mongoose-schema-jsonschema": "^1.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",

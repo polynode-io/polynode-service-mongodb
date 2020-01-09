@@ -27,6 +27,7 @@
  */
 
 const mongoose = require('mongoose');
+require('mongoose-schema-jsonschema')(mongoose);
 
 type DBUri = string;
 type DBOptions = {
